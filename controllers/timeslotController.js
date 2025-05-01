@@ -52,21 +52,24 @@ export const viewTimeSlots = async (req, res) => {
 import { updateTimeSlot, deleteTimeSlot } from '../model/timeSlotModel.js';
 
 export const updateSlot = async (req, res) => {
-  const slotId = req.params.id;
-  const providerId = req.user.id;
+  const { id } = req.params;
   const { date, start_time, end_time } = req.body;
+  const providerId = req.user?.id;
 
   try {
-    const updated = await updateTimeSlot(slotId, providerId, { date, start_time, end_time });
-    if (!updated) {
-      return res.status(404).json({ message: 'Time slot not found or unauthorized' });
+    const updatedSlot = await updateTimeSlot({ id, providerId, date, start_time, end_time });
+
+    if (!updatedSlot) {
+      return res.status(404).json({ message: 'Time slot not found or not authorized' });
     }
-    res.status(200).json(updated);
+
+    res.status(200).json({ message: 'Time slot updated successfully', updatedSlot });
   } catch (err) {
-    console.error('Update error:', err);
+    console.error('Error updating time slot:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 export const deleteSlot = async (req, res) => {
   const slotId = req.params.id;

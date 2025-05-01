@@ -45,16 +45,16 @@ export const findAllTimeSlots = async () => {
 };
 
 // model/timeSlotModel.js
-export const updateTimeSlot = async (slotId, providerId, updates) => {
-    const { date, start_time, end_time } = updates;
-    const result = await query(
-      `UPDATE time_slots
-       SET date = $1, start_time = $2, end_time = $3
-       WHERE id = $4 AND provider_id = $5
-       RETURNING *`,
-      [date, start_time, end_time, slotId, providerId]
-    );
-    return result.rows[0];
+export const updateTimeSlot = async ({ id, providerId, date, start_time, end_time }) => {
+    const updateQuery = `
+      UPDATE time_slots
+      SET date = $1, start_time = $2, end_time = $3
+      WHERE id = $4 AND provider_id = $5
+      RETURNING *;
+    `;
+    const values = [date, start_time, end_time, id, providerId];
+    const result = await query(updateQuery, values);
+    return result.rows[0]; // null if nothing was updated
   };
   
   export const deleteTimeSlot = async (slotId, providerId) => {

@@ -616,3 +616,120 @@
 {"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 20:57:41"}
 {"level":"info","message":"Executed query: { text: SELECT * FROM time_slots..., params: undefined, duration: 7ms, rows: 3}","timestamp":"2025-05-01 20:57:41"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:19:57:41 +0000] \"GET /api/time-slot/view HTTP/1.1\" 200 712 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 20:57:41"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 21:13:02"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:13:07 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 401 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:13:07"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:17:09 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 401 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:17:09"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:18:42 +0000] \"PUT /api/time-slot/77090232-7378-4548-a2f5-cab1f6b8ea04 HTTP/1.1\" 404 1256 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:18:42"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:18:59 +0000] \"PUT /api/time-slot/77090232-7378-4548-a2f5-cab1f6b8ea04 HTTP/1.1\" 404 1256 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:18:59"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:19:27 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 401 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:19:27"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:22:57"}
+{"level":"info","message":"Executed query: { text: UPDATE time_slots\n       SET date = $1, start_time = $2, end_time = $3\n       WHERE id = $4 AND prov..., params: [\"2025-05-01\",null,null,null,\"8cb83b2a-f942-46b8-a28a-25e59a3e2a66\"], duration: 9ms, rows: 0}","timestamp":"2025-05-01 21:22:57"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:22:57 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 404 49 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:22:57"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:27:54"}
+{"level":"info","message":"Executed query: { text: UPDATE time_slots\n       SET date = $1, start_time = $2, end_time = $3\n       WHERE id = $4 AND prov..., params: [\"2025-05-01\",null,null,null,\"8cb83b2a-f942-46b8-a28a-25e59a3e2a66\"], duration: 10ms, rows: 0}","timestamp":"2025-05-01 21:27:54"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:27:54 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 404 49 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:27:54"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 21:28:12"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 21:28:13"}
+{"level":"info","message":"Executed query: { text: UPDATE time_slots\n       SET date = $1, start_time = $2, end_time = $3\n       WHERE id = $4 AND prov..., params: [\"2025-05-01\",null,null,null,\"8cb83b2a-f942-46b8-a28a-25e59a3e2a66\"], duration: 3ms, rows: 0}","timestamp":"2025-05-01 21:28:16"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:28:16 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 404 49 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:28:16"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 21:37:54"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 21:37:54"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:37:54"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 21:37:54"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 21:37:55"}
+{"level":"info","message":"Executed query: { text: \n      UPDATE time_slots\n      SET date = $1, start_time = $2, end_time = $3\n      WHERE id = $4 AND..., params: [\"2025-05-01\",null,null,null,\"8cb83b2a-f942-46b8-a28a-25e59a3e2a66\"], duration: 11ms, rows: 0}","timestamp":"2025-05-01 21:38:03"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:38:03 +0000] \"PUT /api/time-slot/update HTTP/1.1\" 404 51 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:38:03"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 21:54:38"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:20:54:53 +0000] \"PUT /api/time-slot/aeea2003-ebb7-426b-8826-7e55ccd1869e HTTP/1.1\" 500 35 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 21:54:53"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 22:02:34"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:02:40 +0000] \"PUT /api/time-slot/aeea2003-ebb7-426b-8826-7e55ccd1869e HTTP/1.1\" 403 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:02:40"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:05:19"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolose@gmail.com\"], duration: 10ms, rows: 1}","timestamp":"2025-05-01 22:05:19"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM service_providers WHERE user_id = $1..., params: [\"8cb83b2a-f942-46b8-a28a-25e59a3e2a66\"], duration: 2ms, rows: 1}","timestamp":"2025-05-01 22:05:19"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:05:19 +0000] \"POST /api/providers/login HTTP/1.1\" 200 474 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:05:19"}
+{"level":"error","message":"Error executing query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolose@gmail.com\"], error: Connection terminated due to connection timeout}","timestamp":"2025-05-01 22:05:32"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:05:32 +0000] \"POST /api/providers/login HTTP/1.1\" 500 26 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:05:32"}
+{"level":"error","message":"Error executing query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolose@gmail.com\"], error: Connection terminated due to connection timeout}","timestamp":"2025-05-01 22:05:56"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:05:56 +0000] \"POST /api/users/login HTTP/1.1\" 500 26 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:05:56"}
+{"level":"error","message":"Error executing query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolose@gmail.com\"], error: Connection terminated due to connection timeout}","timestamp":"2025-05-01 22:06:13"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:06:13 +0000] \"POST /api/users/register HTTP/1.1\" 500 26 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:06:13"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-01 22:07:36"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-01 22:07:41"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-01 22:07:42"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolose@gmail.com\"], duration: 3ms, rows: 1}","timestamp":"2025-05-01 22:07:53"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:07:53 +0000] \"POST /api/users/register HTTP/1.1\" 400 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:07:53"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:08:05"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolos@gmail.com\"], duration: 503ms, rows: 0}","timestamp":"2025-05-01 22:08:05"}
+{"level":"info","message":"Executed query: { text: \n      INSERT INTO users (first_name, last_name, email, password)\n      VALUES ($1, $2, $3, $4)\n    ..., params: [\"Ivan\",\"Bolose\",\"bolos@gmail.com\",\"$2b$10$YJEZhMpgEXuNJ/1ghwg.Te1elMwjjgVepTsP5y2wwa7roE.ebERIK\"], duration: 1ms, rows: 1}","timestamp":"2025-05-01 22:08:05"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:08:05 +0000] \"POST /api/users/register HTTP/1.1\" 201 161 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:08:05"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolos@gmail.com\"], duration: 1ms, rows: 1}","timestamp":"2025-05-01 22:08:12"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:08:12 +0000] \"POST /api/users/login HTTP/1.1\" 200 325 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:08:12"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:08:27"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolos@gmail.com\"], duration: 1862ms, rows: 1}","timestamp":"2025-05-01 22:08:27"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM service_providers WHERE user_id = $1..., params: [\"f26c100c-f861-4a90-a488-525ccda5c44e\"], duration: 1ms, rows: 0}","timestamp":"2025-05-01 22:08:27"}
+{"level":"info","message":"Executed query: { text: \n      INSERT INTO service_providers (user_id, service_name)\n      VALUES ($1, $2)\n      RETURNING *..., params: [\"f26c100c-f861-4a90-a488-525ccda5c44e\",\"Programer\"], duration: 41ms, rows: 1}","timestamp":"2025-05-01 22:08:27"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:08:27 +0000] \"POST /api/providers/register HTTP/1.1\" 201 232 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:08:27"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM users WHERE email = $1..., params: [\"bolos@gmail.com\"], duration: 2ms, rows: 1}","timestamp":"2025-05-01 22:08:34"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM service_providers WHERE user_id = $1..., params: [\"f26c100c-f861-4a90-a488-525ccda5c44e\"], duration: 1ms, rows: 1}","timestamp":"2025-05-01 22:08:34"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:08:34 +0000] \"POST /api/providers/login HTTP/1.1\" 200 472 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:08:34"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:09:08"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM service_providers WHERE user_id = $1..., params: [\"f26c100c-f861-4a90-a488-525ccda5c44e\"], duration: 7ms, rows: 1}","timestamp":"2025-05-01 22:09:08"}
+{"level":"info","message":"Executed query: { text: \n    INSERT INTO time_slots (provider_id, date, start_time, end_time)\n    VALUES ($1, $2, $3, $4)\n  ..., params: [\"55741f8f-deab-4dd0-be07-43ef281e2d10\",\"2025-05-01\",\"10:00\",\"11:00\"], duration: 43ms, rows: 1}","timestamp":"2025-05-01 22:09:08"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:09:08 +0000] \"POST /api/time-slot/create HTTP/1.1\" 201 275 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:09:08"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:09:21 +0000] \"GET /api/time-slot/view HTTP/1.1\" 403 38 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:09:21"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:10:11"}
+{"level":"info","message":"Executed query: { text: SELECT * FROM time_slots..., params: undefined, duration: 10ms, rows: 4}","timestamp":"2025-05-01 22:10:11"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:10:11 +0000] \"GET /api/time-slot/view HTTP/1.1\" 200 949 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:10:11"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:10:41"}
+{"level":"info","message":"Executed query: { text: \n      UPDATE time_slots\n      SET date = $1, start_time = $2, end_time = $3\n      WHERE id = $4 AND..., params: [\"2025-05-01\",null,null,\"aeea2003-ebb7-426b-8826-7e55ccd1869e\",\"f26c100c-f861-4a90-a488-525ccda5c44e\"], duration: 684ms, rows: 0}","timestamp":"2025-05-01 22:10:41"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:10:41 +0000] \"PUT /api/time-slot/aeea2003-ebb7-426b-8826-7e55ccd1869e HTTP/1.1\" 404 51 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:10:41"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-01 22:12:11"}
+{"level":"info","message":"Executed query: { text: \n      UPDATE time_slots\n      SET date = $1, start_time = $2, end_time = $3\n      WHERE id = $4 AND..., params: [\"2025-05-01\",null,null,\"55741f8f-deab-4dd0-be07-43ef281e2d10\",\"f26c100c-f861-4a90-a488-525ccda5c44e\"], duration: 7ms, rows: 0}","timestamp":"2025-05-01 22:12:11"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [01/May/2025:21:12:11 +0000] \"PUT /api/time-slot/55741f8f-deab-4dd0-be07-43ef281e2d10 HTTP/1.1\" 404 51 \"-\" \"insomnia/11.0.2\"","timestamp":"2025-05-01 22:12:11"}
