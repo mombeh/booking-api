@@ -21,10 +21,10 @@ if (!DB_HOST || !DB_PASSWORD || !DB_NAME || !DB_USER || !DB_PORT || !DB_NAME_TES
 }
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.NODE_ENV === "test" ? DB_NAME_TEST : DB_NAME,
-    password: process.env.DB_PASSWORD,
+    user: DB_USER,
+    host: DB_HOST,
+    database: NODE_ENV === "test" ? DB_NAME_TEST : DB_NAME,
+    password: DB_PASSWORD,
     port: parseInt(DB_PORT, 10),
     connectionTimeoutMillis: 2000
 })
@@ -49,9 +49,7 @@ const initializeDbSchema = async () => {
         logger.info('pgcrypto extension ensured');
 
         await client.query(`
-      DROP TABLE IF EXISTS appointments, time_slots, service_providers, users CASCADE;
     `);
-        logger.info('Dropped all existing tables');
 
 
         // Users Table (Clients)
@@ -96,17 +94,17 @@ const initializeDbSchema = async () => {
 
         // Appointments Table
          await client.query(`
-CREATE TABLE IF NOT EXISTS appointments (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- Link to client/user
-  provider_id UUID NOT NULL REFERENCES service_providers(id) ON DELETE CASCADE, -- Link to service provider
-  appointment_time TIMESTAMPTZ NOT NULL,
-  status VARCHAR(50) DEFAULT 'pending',  -- Pending, Confirmed, Canceled
-  notes TEXT,
-  time_slot_id UUID REFERENCES time_slots(id) ON DELETE CASCADE, -- Link to time slot
-  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-);
+        CREATE TABLE IF NOT EXISTS appointments (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- Link to client/user
+          provider_id UUID NOT NULL REFERENCES service_providers(id) ON DELETE CASCADE, -- Link to service provider
+          appointment_time TIMESTAMPTZ NOT NULL,
+          status VARCHAR(50) DEFAULT 'pending',  -- Pending, Confirmed, Canceled
+          notes TEXT,
+          time_slot_id UUID REFERENCES time_slots(id) ON DELETE CASCADE, -- Link to time slot
+          created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+        );
          `);
         logger.info('appointments table has been created');
 

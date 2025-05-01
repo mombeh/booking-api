@@ -1,4 +1,5 @@
-import { createTimeSlot, isOverlappingTimeSlot } from '../model/timeSlotModel.js';
+//controller/timeslotController.js
+import { createTimeSlot } from '../model/timeSlotModel.js';
 import { findProviderByUserId } from '../model/providerModel.js';
 
 
@@ -13,10 +14,10 @@ export const createSlot = async (req, res) => {
       return res.status(403).json({ message: 'Only service providers can create time slots' });
     }
 
-    const overlap = await isOverlappingTimeSlot(provider.id, date, startTime, endTime);
-    if (overlap) {
-      return res.status(409).json({ message: 'Time slot overlaps with existing one' });
-    }
+    // const overlap = await isOverlappingTimeSlot(provider.id, date, startTime, endTime);
+    // if (overlap) {
+    //   return res.status(409).json({ message: 'Time slot overlaps with existing one' });
+    // }
 
     const slot = await createTimeSlot(provider.id, date, startTime, endTime);
     res.status(201).json({ message: 'Time slot created', slot });
@@ -26,26 +27,65 @@ export const createSlot = async (req, res) => {
   }
 };
 
-import TimeSlot from '../models/timeSlotModel.js';
+// controllers/timeSlotController.js
+import { findTimeSlotsByProvider, findAllTimeSlots } from '../model/timeSlotModel.js';
 
 export const viewTimeSlots = async (req, res) => {
   try {
-    const filter = {};
+    const { provider_id } = req.query;
 
-    // Optional filter: providerId (for viewing provider's slots)
-    if (req.query.providerId) {
-      filter.provider = req.query.providerId;
+    let slots;
+    if (provider_id) {
+      slots = await findTimeSlotsByProvider(provider_id);
+    } else {
+      slots = await findAllTimeSlots();
     }
 
-    const timeSlots = await TimeSlot.find(filter);
-
-    res.status(200).json({
-      success: true,
-      data: timeSlots,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(200).json(slots);
+  } catch (err) {
+    console.error('Error fetching time slots:', err);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+// controllers/timeSlotController.js
+import { updateTimeSlot, deleteTimeSlot } from '../model/timeSlotModel.js';
+
+export const updateSlot = async (req, res) => {
+  const slotId = req.params.id;
+  const providerId = req.user.id;
+  const { date, start_time, end_time } = req.body;
+
+  try {
+    const updated = await updateTimeSlot(slotId, providerId, { date, start_time, end_time });
+    if (!updated) {
+      return res.status(404).json({ message: 'Time slot not found or unauthorized' });
+    }
+    res.status(200).json(updated);
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const deleteSlot = async (req, res) => {
+  const slotId = req.params.id;
+  const providerId = req.user.id;
+
+  try {
+    const deleted = await deleteTimeSlot(slotId, providerId);
+    if (!deleted) {
+      return res.status(404).json({ message: 'Time slot not found or unauthorized' });
+    }
+    res.status(200).json({ message: 'Time slot deleted successfully' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+  
+
+
 

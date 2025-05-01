@@ -12,16 +12,58 @@ export const createTimeSlot = async (providerId, date, startTime, endTime) => {
   return result.rows[0];
 };
 
-export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime) => {
+// export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime) => {
+//   const result = await query(
+//     `
+//     SELECT * FROM time_slots
+//     WHERE provider_id = $1 AND date = $2
+//     AND (
+//       (start_time < $4 AND end_time > $3)
+//     );
+//     `,
+//     [providerId, date, startTime, endTime]
+//   );
+//   return result.rows.length > 0;
+// };
+
+// model/timeSlotModel.js
+// services/timeslotService.js
+
+// model/timeSlotModel.js
+
+export const findTimeSlotsByProvider = async (providerId) => {
   const result = await query(
-    `
-    SELECT * FROM time_slots
-    WHERE provider_id = $1 AND date = $2
-    AND (
-      (start_time < $4 AND end_time > $3)
-    );
-    `,
-    [providerId, date, startTime, endTime]
+    'SELECT * FROM time_slots WHERE provider_id = $1',
+    [providerId]
   );
-  return result.rows.length > 0;
+  return result.rows;
 };
+
+export const findAllTimeSlots = async () => {
+  const result = await query('SELECT * FROM time_slots');
+  return result.rows;
+};
+
+// model/timeSlotModel.js
+export const updateTimeSlot = async (slotId, providerId, updates) => {
+    const { date, start_time, end_time } = updates;
+    const result = await query(
+      `UPDATE time_slots
+       SET date = $1, start_time = $2, end_time = $3
+       WHERE id = $4 AND provider_id = $5
+       RETURNING *`,
+      [date, start_time, end_time, slotId, providerId]
+    );
+    return result.rows[0];
+  };
+  
+  export const deleteTimeSlot = async (slotId, providerId) => {
+    const result = await query(
+      `DELETE FROM time_slots
+       WHERE id = $1 AND provider_id = $2
+       RETURNING *`,
+      [slotId, providerId]
+    );
+    return result.rows[0];
+  };
+  
