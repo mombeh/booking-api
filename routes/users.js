@@ -1,3 +1,4 @@
+//routes/users
 import express from 'express';
 import { loginUser, registerUser } from '../controllers/userController.js';
 import { validateRequest } from '../middleware/validateRequest.js';

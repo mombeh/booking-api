@@ -1,3 +1,4 @@
+//config/db
 import pg from "pg"
 import logger from "../utils/logger.js"
 import "dotenv/config"
@@ -72,7 +73,7 @@ const initializeDbSchema = async () => {
         CREATE TABLE IF NOT EXISTS service_providers (
            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
            user_id UUID REFERENCES users(id) ON DELETE CASCADE, -- Link to users table
-           name VARCHAR(100) NOT NULL,
+           service_name VARCHAR(100) NOT NULL,
            email VARCHAR(255) UNIQUE,
            created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
         );

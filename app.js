@@ -3,9 +3,11 @@ import path, { dirname } from'path';
 import cookieParser from'cookie-parser';
 import { fileURLToPath } from 'node:url';
 import morgan from 'morgan';
+import timeSlotRoutes from './routes/timeSlot.js'
 import winstonLogger from './utils/logger.js'
 import indexRouter from'./routes/index.js';
 import usersRouter from'./routes/users.js';
+import providerRouter from './routes/providers.js'
 
 const app = express();
 
@@ -22,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-// app.use('/api/auth', authRouter);
-// app.use('/api/time-slot', timeSlotRoutes);
+app.use('/api/providers', providerRouter);
+app.use('/api/time-slot', timeSlotRoutes);
 // app.use('/api/appointments', appointmentRoutes);
 
 // catch 404 and forward to error handler

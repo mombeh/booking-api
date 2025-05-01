@@ -1,3 +1,4 @@
+//controllers/usercontroler
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByEmail } from '../model/userModel.js';

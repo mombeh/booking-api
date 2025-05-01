@@ -1,3 +1,4 @@
+//model/usermodel
 import { query } from '../config/db.js';
 
 export const createUser = async (firstName, lastName, email, hashedPassword) => {
