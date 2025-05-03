@@ -1932,3 +1932,13 @@
 {"level":"info","message":"time_slots table has been created","timestamp":"2025-05-03 14:29:15"}
 {"level":"info","message":"appointments table has been created","timestamp":"2025-05-03 14:29:15"}
 {"level":"info","message":"Indexes created","timestamp":"2025-05-03 14:29:15"}
+{"level":"info","message":"Database is configured for: booking_api","timestamp":"2025-05-03 21:12:17"}
+{"level":"info","message":"Attempting to start server on port 4050","timestamp":"2025-05-03 21:12:18"}
+{"level":"info","message":"Client connected from Pool (Total count: 1)","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"Initializing database schema...","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"pgcrypto extension ensured","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"Users table has been created","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"service_provider table has been created","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"time_slots table has been created","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"appointments table has been created","timestamp":"2025-05-03 21:12:19"}
+{"level":"info","message":"Indexes created","timestamp":"2025-05-03 21:12:19"}
