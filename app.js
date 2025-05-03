@@ -3,6 +3,8 @@ import path, { dirname } from'path';
 import cookieParser from'cookie-parser';
 import { fileURLToPath } from 'node:url';
 import morgan from 'morgan';
+import swaggerUi from "swagger-ui-express"
+import swaggerSpec from './swaggerConfig.js';
 import timeSlotRoutes from './routes/timeSlot.js'
 import winstonLogger from './utils/logger.js'
 import indexRouter from'./routes/index.js';
@@ -35,5 +37,8 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 export default app
