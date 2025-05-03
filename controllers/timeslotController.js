@@ -1,5 +1,6 @@
 //controller/timeslotController.js
 import { createTimeSlot } from '../model/timeSlotModel.js';
+import { findProviderById } from '../model/providerModel.js';
 import { findProviderByUserId } from '../model/providerModel.js';
 
 
@@ -8,7 +9,7 @@ export const createSlot = async (req, res) => {
   const userId = req.user?.id;
 
   try {
-    const provider = await findProviderByUserId(userId);
+    const provider = await findProviderById(req.user.id);
 
     if (!provider) {
       return res.status(403).json({ message: 'Only service providers can create time slots' });
@@ -54,7 +55,7 @@ import { updateTimeSlot, deleteTimeSlot } from '../model/timeSlotModel.js';
 export const updateSlot = async (req, res) => {
   const { id } = req.params;
   const { date, start_time, end_time } = req.body;
-  const providerId = req.user?.id;
+  const providerId = req.user.id;
 
   try {
     const updatedSlot = await updateTimeSlot({ id, providerId, date, start_time, end_time });

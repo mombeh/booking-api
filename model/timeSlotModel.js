@@ -67,3 +67,16 @@ export const updateTimeSlot = async ({ id, providerId, date, start_time, end_tim
     return result.rows[0];
   };
   
+
+  // model/timeSlotModel.js
+
+// Get a time slot by ID
+export const findTimeSlotById = async (id) => {
+  const result = await query('SELECT * FROM time_slots WHERE id = $1', [id]);
+  return result.rows[0];
+};
+
+// Mark time slot as booked
+export const markTimeSlotBooked = async (id) => {
+  await query('UPDATE time_slots SET is_booked = true WHERE id = $1', [id]);
+};
