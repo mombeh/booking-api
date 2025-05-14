@@ -1,49 +1,60 @@
 import { getAppointmentsByUser, findAppointmentById, deleteAppointment } from '../model/appointmentModel.js';
-import { pool } from '../config/db.js';
+import { query } from '../config/db.js';
 import { withTransaction } from '../config/db.js';
 
+// POST /api/appointments/book
 export const bookAppointment = async (req, res) => {
-    const userId = req.user.id;
-    const { timeSlotId } = req.body;
-    const io = req.app.get('io');
+  const { user_id, provider_id, appointment_time, time_slot_id, notes } = req.body;
 
-    try {
-        const result = await withTransaction(async (client) => {
-            // Find time slot and check availability
-            const { rows: timeSlot } = await client.query('SELECT * FROM time_slots WHERE id = $1 FOR UPDATE', [timeSlotId]);
-            if (timeSlot.length === 0 || timeSlot[0].is_booked) {
-                throw new Error('Time slot is already booked or invalid');
-            }
+  try {
+    const result = await withTransaction(async (client) => {
+      // 1. Check if the time slot exists and is not booked
+      const slotResult = await client.query(
+        `SELECT * FROM time_slots WHERE id = $1 AND provider_id = $2 AND is_booked = FALSE`,
+        [time_slot_id, provider_id]
+      );
 
-            const providerId = timeSlot[0].provider_id;
-            const appointmentTime = new Date(`${timeSlot[0].date}T${timeSlot[0].start_time}`);
+      if (slotResult.rows.length === 0) {
+        throw new Error("Time slot is already booked or invalid");
+      }
 
-            if (isNaN(appointmentTime.getTime())) {
-                throw new Error('Invalid appointment time');
-            }
+      // 2. Insert appointment
+      const appointmentResult = await client.query(
+        `INSERT INTO appointments (user_id, provider_id, appointment_time, time_slot_id, notes)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING *`,
+        [user_id, provider_id, appointment_time, time_slot_id, notes]
+      );
 
-            // Create the appointment
-            const { rows: appointment } = await client.query(`
-                INSERT INTO appointments (user_id, provider_id, time_slot_id, appointment_time, status)
-                VALUES ($1, $2, $3, $4, 'confirmed') RETURNING *`, 
-                [userId, providerId, timeSlotId, appointmentTime]
-            );
+      const newAppointment = appointmentResult.rows[0];
 
-            // Update the time slot to mark it as booked
-            await client.query('UPDATE time_slots SET is_booked = TRUE WHERE id = $1', [timeSlotId]);
+      // 3. Mark the slot as booked
+      await client.query(
+        `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`,
+        [time_slot_id]
+      );
 
-            return appointment; // Return the newly created appointment for response
-        });
+      // 4. Get full appointment details (joined with user and provider info)
+      const detailedResult = await client.query(`
+        SELECT *
+        FROM appointments a
+        JOIN users u ON u.id = a.user_id
+        JOIN service_providers sp ON sp.id = a.provider_id
+        JOIN time_slots ts ON ts.id = a.time_slot_id
+        WHERE a.id = $1
+      `, [newAppointment.id]);
 
-        // If everything goes well, emit the appointment to the provider
-        const appointment = result[0];
-        io.to(`provider_${appointment.provider_id}`).emit('appointmentBooked', appointment);
+      return detailedResult.rows[0]; // the full joined data
+    });
 
-        res.status(201).json({ message: 'Appointment booked successfully', appointment });
-    } catch (error) {
-        logger.error('Error while booking appointment', error);
-        res.status(500).json({ message: error.message || 'Server error' });
-    }
+    res.status(201).json({
+      message: "Appointment booked successfully",
+      appointment: result,
+    });
+
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 

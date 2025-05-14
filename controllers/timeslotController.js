@@ -1,11 +1,10 @@
 //controller/timeslotController.js
-import { createTimeSlot } from '../model/timeSlotModel.js';
+import { createTimeSlot, isOverlappingTimeSlot } from '../model/timeSlotModel.js';
 import { findProviderByUserId } from '../model/providerModel.js';
-
 
 export const createSlot = async (req, res) => {
   const { date, startTime, endTime } = req.body;
-  const userId = req.user?.id;
+  const providerId = req.user?.id;
 
   try {
     // const provider = await findProviderById(req.user.id);
@@ -16,13 +15,13 @@ export const createSlot = async (req, res) => {
 
     const provider = await findProviderByUserId(req.user.id); // ← Corrected this line
 
-    const overlap = await isOverlappingTimeSlot(provider.id, date, startTime, endTime);
+    const overlap = await isOverlappingTimeSlot(providerId, date, startTime, endTime);
     if (overlap) {
       return res.status(409).json({ message: 'Time slot overlaps with existing one' });
     }
     
 
-    const slot = await createTimeSlot(provider.id, date, startTime, endTime);
+    const slot = await createTimeSlot(providerId, date, startTime, endTime);
     res.status(201).json({ message: 'Time slot created', slot });
   } catch (err) {
     console.error('Time slot creation error:', err);
