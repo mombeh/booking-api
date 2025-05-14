@@ -184,4 +184,22 @@ const query = async (text, params) => {
     }
 }
 
-export { pool, connectToDb, query, initializeDbSchema }
+// Adds a function to handle transactions
+const withTransaction = async (callback) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN'); // Start the transaction
+        const result = await callback(client); // Run the callback function within the transaction
+        await client.query('COMMIT'); // Commit the transaction
+        return result;
+    } catch (error) {
+        await client.query('ROLLBACK'); // Rollback the transaction in case of an error
+        logger.error('Transaction error', error);
+        throw error; // Re-throw the error to propagate it
+    } finally {
+        client.release(); // Release the client back to the pool
+    }
+};
+
+
+export { pool, connectToDb, query, initializeDbSchema, withTransaction }

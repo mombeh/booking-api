@@ -68,7 +68,7 @@ router.post('/create', authenticate, createSlot);
  */
 
 router.get('/view',authenticate, viewTimeSlots);
-// router.put('/:id', authenticate, updateSlot);
-// router.delete('/delete/:id', authenticate, deleteSlot);
+ router.put('/:id', authenticate, updateSlot);
+ router.delete('/delete/:id', authenticate, deleteSlot);
 
 export default router;

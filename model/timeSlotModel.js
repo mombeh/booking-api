@@ -12,31 +12,32 @@ export const createTimeSlot = async (providerId, date, startTime, endTime) => {
   return result.rows[0];
 };
 
-// export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime) => {
-//   const result = await query(
-//     `
-//     SELECT * FROM time_slots
-//     WHERE provider_id = $1 AND date = $2
-//     AND (
-//       (start_time < $4 AND end_time > $3)
-//     );
-//     `,
-//     [providerId, date, startTime, endTime]
-//   );
-//   return result.rows.length > 0;
-// };
+export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime) => {
+  const result = await query(
+    `
+    SELECT * FROM time_slots
+    WHERE provider_id = $1 AND date = $2
+    AND (
+      (start_time < $4 AND end_time > $3)
+    );
+    `,
+    [providerId, date, startTime, endTime]
+  );
+  return result.rows.length > 0;
+};
 
 // model/timeSlotModel.js
 // services/timeslotService.js
 
 // model/timeSlotModel.js
-
+// In model/timeSlotModel.js
 export const findTimeSlotsByProvider = async (providerId) => {
-  const result = await query(
-    'SELECT * FROM time_slots WHERE provider_id = $1',
-    [providerId]
-  );
-  return result.rows;
+  return await db.time_slots.findAll({
+      where: {
+          provider_id: providerId,
+          is_booked: false
+      }
+  });
 };
 
 export const findAllTimeSlots = async () => {

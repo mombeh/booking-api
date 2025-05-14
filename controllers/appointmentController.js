@@ -1,57 +1,55 @@
-import { createAppointment } from '../model/appointmentModel.js';
-import { findTimeSlotById } from '../model/timeSlotModel.js';
-import { getAppointmentsByUser } from '../model/appointmentModel.js';
+import { getAppointmentsByUser, findAppointmentById, deleteAppointment } from '../model/appointmentModel.js';
+import { pool } from '../config/db.js';
+import { withTransaction } from '../config/db.js';
+
 export const bookAppointment = async (req, res) => {
     const userId = req.user.id;
     const { timeSlotId } = req.body;
-    const io = req.app.get('io'); // ← get the Socket.IO server instance
+    const io = req.app.get('io');
 
     try {
-        const timeSlot = await findTimeSlotById(timeSlotId);
-        if (!timeSlot) {
-            return res.status(404).json({ message: 'Time slot not found' });
-        }
+        const result = await withTransaction(async (client) => {
+            // Find time slot and check availability
+            const { rows: timeSlot } = await client.query('SELECT * FROM time_slots WHERE id = $1 FOR UPDATE', [timeSlotId]);
+            if (timeSlot.length === 0 || timeSlot[0].is_booked) {
+                throw new Error('Time slot is already booked or invalid');
+            }
 
-        const providerId = timeSlot.provider_id;
+            const providerId = timeSlot[0].provider_id;
+            const appointmentTime = new Date(`${timeSlot[0].date}T${timeSlot[0].start_time}`);
 
-        const dateStr = timeSlot.date instanceof Date
-            ? timeSlot.date.toISOString().split('T')[0]
-            : timeSlot.date;
+            if (isNaN(appointmentTime.getTime())) {
+                throw new Error('Invalid appointment time');
+            }
 
-        const timeStr = typeof timeSlot.start_time === 'string'
-            ? timeSlot.start_time
-            : timeSlot.start_time.toTimeString().split(' ')[0];
+            // Create the appointment
+            const { rows: appointment } = await client.query(`
+                INSERT INTO appointments (user_id, provider_id, time_slot_id, appointment_time, status)
+                VALUES ($1, $2, $3, $4, 'confirmed') RETURNING *`, 
+                [userId, providerId, timeSlotId, appointmentTime]
+            );
 
-        console.log('Combined datetime string:', `${dateStr}T${timeStr}`);
+            // Update the time slot to mark it as booked
+            await client.query('UPDATE time_slots SET is_booked = TRUE WHERE id = $1', [timeSlotId]);
 
-        const appointmentTime = new Date(`${dateStr}T${timeStr}`);
-
-        console.log('Parsed appointmentTime:', appointmentTime.toISOString());
-
-
-        if (isNaN(appointmentTime.getTime())) {
-            return res.status(400).json({ message: 'Invalid appointment time', debug: { dateStr, timeStr } });
-        }
-
-        const appointment = await createAppointment(userId, providerId, timeSlotId, appointmentTime);
-
-        // After successful booking
-        io.emit('appointment:booked', {
-            user_id: userId,
-            provider_id: providerId,
-            time: appointmentTime,
+            return appointment; // Return the newly created appointment for response
         });
-        res.status(201).json({ message: 'Appointment booked', appointment });
 
+        // If everything goes well, emit the appointment to the provider
+        const appointment = result[0];
+        io.to(`provider_${appointment.provider_id}`).emit('appointmentBooked', appointment);
 
-    } catch (err) {
-        console.error('Booking error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(201).json({ message: 'Appointment booked successfully', appointment });
+    } catch (error) {
+        logger.error('Error while booking appointment', error);
+        res.status(500).json({ message: error.message || 'Server error' });
     }
 };
 
+
+
 export const getAppointments = async (req, res) => {
-    const userId = req.query.user_id;
+    const userId = req.user.id;
 
     try {
         const appointments = await getAppointmentsByUser(userId); // Call the model function
@@ -64,4 +62,30 @@ export const getAppointments = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const cancelAppointment = async (req, res) => {
+    const appointmentId = req.params.id;
+    const userId = req.user.id;
+
+    try {
+        const appointment = await findAppointmentById(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        if (appointment.user_id !== userId) {
+            return res.status(403).json({ message: 'You are not authorized to cancel this appointment' });
+        }
+
+        await deleteAppointment(appointmentId);
+        await updateTimeSlot(appointment.time_slot_id, { is_booked: false }); // unbook the slot
+
+        res.status(200).json({ message: 'Appointment cancelled successfully' });
+    } catch (err) {
+        console.error('Error cancelling appointment:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 
