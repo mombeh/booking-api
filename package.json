@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "NODE_ENV=test  node --env-file=.env --test --experimental-test-coverage",
-    "start": "node --env-file=.env ./bin/www",
-    "dev": "nodemon --env-file=.env ./bin/www"
+    "start": "node  ./bin/www",
+    "dev": "nodemon  ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
