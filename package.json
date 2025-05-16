@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "NODE_ENV=test  node --env-file=.env --test --experimental-test-coverage",
+    "test": "NODE_ENV=test  node  --test --experimental-test-coverage",
     "start": "node  ./bin/www",
     "dev": "nodemon  ./bin/www"
   },
