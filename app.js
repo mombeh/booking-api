@@ -1,4 +1,5 @@
 import express from'express';
+import 'dotenv/config'
 import path, { dirname } from'path';
 import cookieParser from'cookie-parser';
 import { fileURLToPath } from 'node:url';
