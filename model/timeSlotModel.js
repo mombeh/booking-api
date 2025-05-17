@@ -26,11 +26,6 @@ export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime
   return result.rows.length > 0;
 };
 
-// model/timeSlotModel.js
-// services/timeslotService.js
-
-// model/timeSlotModel.js
-// In model/timeSlotModel.js
 export const findTimeSlotsByProvider = async (providerId) => {
   return await db.time_slots.findAll({
       where: {
@@ -69,15 +64,3 @@ export const updateTimeSlot = async ({ id, providerId, date, start_time, end_tim
   };
   
 
-  // model/timeSlotModel.js
-
-// // Get a time slot by ID
-// export const findTimeSlotById = async (id) => {
-//   const result = await query('SELECT * FROM time_slots WHERE id = $1', [id]);
-//   return result.rows[0];
-// };
-
-// // Mark time slot as booked
-// export const markTimeSlotBooked = async (id) => {
-//   await query('UPDATE time_slots SET is_booked = true WHERE id = $1', [id]);
-// };
