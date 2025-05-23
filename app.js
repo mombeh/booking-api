@@ -8,6 +8,8 @@ import swaggerUi from "swagger-ui-express"
 import swaggerSpec from './swaggerConfig.js';
 import timeSlotRoutes from './routes/timeSlot.js'
 import winstonLogger from './utils/logger.js'
+import cors from 'cors'
+
 import indexRouter from'./routes/index.js';
 import usersRouter from'./routes/users.js';
 import providerRouter from './routes/providers.js'
@@ -20,6 +22,11 @@ const __dirname = dirname(__filename)
 
 const morganFormat = process.env.NODE_ENV === "production" ? "dev" : 'combined'
 app.use(morgan(morganFormat, { stream: winstonLogger.stream }));
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  Credentials: true
+}))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

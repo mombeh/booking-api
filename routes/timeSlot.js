@@ -66,7 +66,6 @@ router.post('/create', authenticate, createSlot);
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
  */
-
 router.get('/view',authenticate, viewTimeSlots);
  router.put('/:id', authenticate, updateSlot);
  router.delete('/delete/:id', authenticate, deleteSlot);
