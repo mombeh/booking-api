@@ -3,6 +3,7 @@ import express from 'express';
 import { registerProvider, loginProvider } from '../controllers/providerController.js';
 import { validateRequest } from '../middleware/validateRequest.js';
 import { providerRegisterSchema, providerLoginSchema } from '../validator/providerValidator.js';
+import { getProvidersWithTimeSlots } from '../controllers/providerController.js'; // ✅ Add this
 
 const router = express.Router();
 /**
@@ -112,5 +113,6 @@ router.post('/register', validateRequest(providerRegisterSchema), registerProvid
  *   description: User registration and login
  */
 router.post('/login', validateRequest(providerLoginSchema), loginProvider);
+router.get('/view', getProvidersWithTimeSlots); 
 
 export default router;
