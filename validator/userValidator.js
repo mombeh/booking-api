@@ -2,11 +2,18 @@
 import Joi from 'joi';
 
 export const registerSchema = Joi.object({
-    email: Joi.string().email({ maxDomainSegments: 2 }).required(),
-    firstName: Joi.string().min(3).max(30).required(),
-    lastName: Joi.string().min(3).max(30).required(),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+  email: Joi.string().email().required(),
+  firstName: Joi.string().min(3).required(),
+  lastName: Joi.string().min(3).required(),
+  password: Joi.string().min(6).required(),
+  role: Joi.string().valid('client', 'provider').required(),
+  serviceName: Joi.when('role', {
+    is: 'provider',
+    then: Joi.string().min(2).required(),
+    otherwise: Joi.forbidden()
+  })
 });
+
 
 export const validate = (req, res, next) => {
     const { error } = registerSchema.validate(req.body);
