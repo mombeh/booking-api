@@ -3,29 +3,37 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByEmail } from '../model/userModel.js';
 
+import { createProvider } from '../model/providerModel.js';
+
 export const registerUser = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
-  
-    try {
-      // Check if user already exists
-      const existingUser = await findUserByEmail(email);
-      if (existingUser) {
-        return res.status(400).json({ message: 'Email already registered' });
-      }
-  
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Create user using model
-      const newUser = await createUser(firstName, lastName, email, hashedPassword);
-  
-      // Respond with the new user (without password)
-      res.status(201).json({ user: newUser });
-    } catch (err) {
-      console.error('Register Error:', err.message);
-      res.status(500).json({ message: 'Server error' });
-    }
-  };
+  const { firstName, lastName, email, password, role, serviceName } = req.body;
+
+  const existingUser = await findUserByEmail(email);
+  if (existingUser) {
+    return res.status(400).json({ message: 'Email already exists' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await createUser(
+    firstName,
+    lastName,
+    email,
+    hashedPassword,
+    role
+  );
+
+  // 👇 If provider, create provider profile
+  if (role === 'provider') {
+    await createProvider(user.id, serviceName);
+  }
+
+  res.status(201).json({
+    message: 'User registered',
+    user
+  });
+};
+
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
