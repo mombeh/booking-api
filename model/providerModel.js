@@ -11,13 +11,13 @@ export const findProviderById = async (providerId) => {
     return result.rows[0];
   };
 
-  export const createProvider = async (userId, serviceName) => {
+  export const createProvider = async (userId, name) => {
     const queryText = `
-      INSERT INTO service_providers (user_id, service_name)
+      INSERT INTO service_providers (user_id, name)
       VALUES ($1, $2)
       RETURNING *;
     `;
-    const result = await query(queryText, [userId, serviceName]);
+    const result = await query(queryText, [userId, name]);
     return result.rows[0];
   };
   
