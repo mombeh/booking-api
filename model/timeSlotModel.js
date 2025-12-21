@@ -27,16 +27,15 @@ export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime
 };
 
 export const findTimeSlotsByProvider = async (providerId) => {
-  return await db.time_slots.findAll({
-      where: {
-          provider_id: providerId,
-          is_booked: false
-      }
-  });
+  const result = await query(
+    `SELECT * FROM time_slots WHERE provider_id = $1 AND is_booked = false`,
+    [providerId]
+  );
+  return result.rows;
 };
 
 export const findAllTimeSlots = async () => {
-  const result = await query('SELECT * FROM time_slots');
+  const result = await query(`SELECT * FROM time_slots`);
   return result.rows;
 };
 
