@@ -12,7 +12,6 @@ import cors from 'cors'
 
 import indexRouter from'./routes/index.js';
 import usersRouter from'./routes/users.js';
-import providerRouter from './routes/providers.js'
 import appointmentRoutes from './routes/appointment.js'
 
 const app = express();
@@ -35,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/providers', providerRouter);
 app.use('/api/time-slot', timeSlotRoutes);
 app.use('/api/appointments', appointmentRoutes);
 
