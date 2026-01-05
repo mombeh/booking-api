@@ -62,4 +62,11 @@ export const updateTimeSlot = async ({ id, providerId, date, start_time, end_tim
     return result.rows[0];
   };
   
+export const unbookTimeSlot = async (timeSlotId) => {
+  const result = await query(
+    `UPDATE time_slots SET is_booked = false WHERE id = $1 RETURNING *`,
+    [timeSlotId]
+  );
+  return result.rows[0];
+};
 

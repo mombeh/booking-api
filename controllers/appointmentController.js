@@ -88,7 +88,7 @@ export const cancelAppointment = async (req, res) => {
         }
 
         await deleteAppointment(appointmentId);
-        await updateTimeSlot(appointment.time_slot_id, { is_booked: false }); // unbook the slot
+        await unbookTimeSlot(appointment.time_slot_id);
 
         res.status(200).json({ message: 'Appointment cancelled successfully' });
     } catch (err) {
@@ -96,6 +96,5 @@ export const cancelAppointment = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
 
 

@@ -4,10 +4,12 @@ import {
   findTimeSlotsByProvider,
   findAllTimeSlots,
   updateTimeSlot,
-  deleteTimeSlot
+  deleteTimeSlot,
+  unbookTimeSlot
 } from "../model/timeSlotModel.js";
 
 import { findProviderByUserId } from "../model/providerModel.js";
+import { getAppointments } from "./appointmentController.js";
 
 export const createSlot = async (req, res) => {
   const { date, startTime, endTime } = req.body;
@@ -129,4 +131,3 @@ export const deleteSlot = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-

@@ -15,10 +15,23 @@ const {
     NODE_ENV
 } = process.env
 
-if (!DB_HOST || !DB_PASSWORD || !DB_NAME || !DB_USER || !DB_PORT || !DB_NAME_TEST) {
-    logger.error("Database environment variable are missing! Check your .env file.")
-    process.exit(1)
+// if (!DB_HOST || !DB_PASSWORD || !DB_NAME || !DB_USER || !DB_PORT || !DB_NAME_TEST) {
+//     logger.error("Database environment variable are missing! Check your .env file.")
+//     process.exit(1)
+// }
+
+if (!DB_HOST || !DB_PASSWORD || !DB_USER || !DB_PORT) {
+  throw new Error("Critical DB environment variables are missing");
 }
+
+if (NODE_ENV === "test" && !DB_NAME_TEST) {
+  throw new Error("DB_NAME_TEST is required in test environment");
+}
+
+if (NODE_ENV !== "test" && !DB_NAME) {
+  throw new Error("DB_NAME is required in non-test environments");
+}
+
 
 const pool = new Pool({
     user: DB_USER,
@@ -30,14 +43,26 @@ const pool = new Pool({
 })
 logger.info(`Database is configured for: ${DB_NAME}`)
 
-pool.on("connect", (client) => {
-    logger.info(`Client connected from Pool (Total count: ${pool.totalCount})`)
+// pool.on("connect", (client) => {
+//     logger.info(`Client connected from Pool (Total count: ${pool.totalCount})`)
+// })
+
+pool.on("error", (err) => {
+    logger.error('Unexpected error on idle client in pool', err)
 })
 
-pool.on("error", (err, client) => {
-    logger.error('Unexpected error on idle client in pool', err)
-    process.exit(-1)
-})
+const query = async (text, params) => {
+    const start = Date.now()
+    try {
+        const res = await pool.query(text, params)
+        const duration = Date.now() - start
+        logger.debug('Executed query', { text, duration, rows: res.rowCount })
+        return res
+    } catch (err) {
+        logger.error('Query error', { text, err })
+        throw err
+    }
+}
 
 const initializeDbSchema = async () => {
     const client = await pool.connect();
@@ -47,10 +72,6 @@ const initializeDbSchema = async () => {
         // pgcrypto for UUIDs
         await client.query(`CREATE EXTENSION IF NOT EXISTS pgcrypto`);
         logger.info('pgcrypto extension ensured');
-
-        await client.query(`
-    `);
-
 
         // Users Table (Clients)
         await client.query(`
@@ -154,33 +175,9 @@ const initializeDbSchema = async () => {
 
     } catch (error) {
         logger.error(`Error while initializing the schema`, error);
-        process.exit(1);
+        throw error;
     } finally {
         client.release();
-    }
-}
-
-const connectToDb = async () => {
-    try {
-        const client = await pool.connect()
-        logger.info(`Database connection pool established successfully`)
-        client.release()
-    } catch (error) {
-        logger.error('Unable to establish database connection pool', error)
-        process.exit(1)
-    }
-}
-
-const query = async (text, params) => {
-    const start = Date.now()
-    try {
-        const response = await pool.query(text, params)
-        const duration = Date.now() - start;
-        logger.info(`Executed query: { text: ${text.substring(0, 100)}..., params: ${JSON.stringify(params)}, duration: ${duration}ms, rows: ${response.rowCount}}`);
-        return response
-    } catch (error) {
-        logger.error(`Error executing query: { text: ${text.substring(0, 100)}..., params: ${JSON.stringify(params)}, error: ${error.message}}`);
-        throw error
     }
 }
 
@@ -202,4 +199,4 @@ const withTransaction = async (callback) => {
 };
 
 
-export { pool, connectToDb, query, initializeDbSchema, withTransaction }
+export { pool, query, initializeDbSchema, withTransaction };
