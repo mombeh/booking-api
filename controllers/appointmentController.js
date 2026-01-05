@@ -1,6 +1,7 @@
 import { getAppointmentsByUser, findAppointmentById, deleteAppointment } from '../model/appointmentModel.js';
 import { withTransaction } from "../config/db.js";
 import { query } from "../config/db.js";
+import { unbookTimeSlot } from "../model/timeSlotModel.js";
 
 export const bookAppointment = async (req, res) => {
   try {

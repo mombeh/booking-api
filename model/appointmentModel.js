@@ -16,12 +16,12 @@ export const getAppointmentsByUser = async (userId) => {
 
 // Find an appointment by its ID
 export const findAppointmentById = async (appointmentId) => {
-  const result = await db.query('SELECT * FROM appointments WHERE id = $1', [appointmentId]);
+  const result = await query('SELECT * FROM appointments WHERE id = $1', [appointmentId]);
   return result.rows[0]; // return the first match or undefined
 };
 
 // Delete an appointment by its ID
 export const deleteAppointment = async (appointmentId) => {
-  const result = await db.query('DELETE FROM appointments WHERE id = $1', [appointmentId]);
+  const result = await query('DELETE FROM appointments WHERE id = $1', [appointmentId]);
   return result.rowCount > 0; // returns true if a row was deleted
 };
