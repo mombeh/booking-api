@@ -12,17 +12,22 @@ export const createTimeSlot = async (providerId, date, startTime, endTime) => {
   return result.rows[0];
 };
 
-export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime) => {
-  const result = await query(
-    `
+export const isOverlappingTimeSlot = async (providerId, date, startTime, endTime, excludeId = null) => {
+  let queryText = `
     SELECT * FROM time_slots
     WHERE provider_id = $1 AND date = $2
     AND (
       (start_time < $4 AND end_time > $3)
-    );
-    `,
-    [providerId, date, startTime, endTime]
-  );
+    )
+  `;
+  const params = [providerId, date, startTime, endTime];
+
+  if (excludeId) {
+    queryText += ' AND id != $5';
+    params.push(excludeId);
+  }
+
+  const result = await query(queryText, params);
   return result.rows.length > 0;
 };
 

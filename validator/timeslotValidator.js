@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;       // YYYY-MM-DD
-const timeRegex = /^\d{2}:\d{2}$/;             // HH:MM (24hr)
+const timeRegex = /^\d{2}:\d{2}(:\d{2})?$/;    // HH:MM or HH:MM:SS (24hr)
 
 export const timeSlotSchema = Joi.object({
   date: Joi.string().pattern(dateRegex).required(),

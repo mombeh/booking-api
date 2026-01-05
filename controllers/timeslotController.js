@@ -71,19 +71,32 @@ export const viewTimeSlots = async (req, res) => {
 export const updateSlot = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, start_time, end_time } = req.body;
+    const { date, startTime, endTime } = req.body;
 
     const provider = await findProviderByUserId(req.user.id);
     if (!provider) {
       return res.status(403).json({ message: "Not a provider" });
     }
 
+    // Check for overlapping time slots, excluding the current one
+    const overlap = await isOverlappingTimeSlot(
+      provider.id,
+      date,
+      startTime,
+      endTime,
+      id // exclude current slot
+    );
+
+    if (overlap) {
+      return res.status(409).json({ message: "Time slot overlaps with existing one" });
+    }
+
     const updatedSlot = await updateTimeSlot({
       id,
       providerId: provider.id,
       date,
-      start_time,
-      end_time,
+      start_time: startTime,
+      end_time: endTime
     });
 
     if (!updatedSlot) {
