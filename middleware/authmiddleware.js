@@ -1,4 +1,3 @@
-//middleware/authmiddleware.js
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -16,7 +15,7 @@ export const authenticate = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user info (id, role, etc.) to request
+    req.user = decoded;
     next();
   } catch (err) {
     res.status(403).json({ message: 'Invalid or expired token' });
@@ -25,7 +24,6 @@ export const authenticate = (req, res, next) => {
 
 // This is the protect middleware to restrict access based on roles
 export const protect = (roles = []) => {
-  // Roles is an array of allowed roles for the route
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({ message: 'Unauthorized' });

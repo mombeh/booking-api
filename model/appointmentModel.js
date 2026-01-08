@@ -10,18 +10,18 @@ export const getAppointmentsByUser = async (userId) => {
         return result.rows;
     } catch (error) {
         console.error('Error fetching appointments in model:', error);
-        throw error; // rethrow error to be handled by controller
+        throw error;
     }
 };
 
 // Find an appointment by its ID
 export const findAppointmentById = async (appointmentId) => {
   const result = await query('SELECT * FROM appointments WHERE id = $1', [appointmentId]);
-  return result.rows[0]; // return the first match or undefined
+  return result.rows[0]; 
 };
 
 // Delete an appointment by its ID
 export const deleteAppointment = async (appointmentId) => {
   const result = await query('DELETE FROM appointments WHERE id = $1', [appointmentId]);
-  return result.rowCount > 0; // returns true if a row was deleted
+  return result.rowCount > 0;
 };

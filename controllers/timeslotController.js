@@ -15,7 +15,7 @@ export const createSlot = async (req, res) => {
   const { date, startTime, endTime } = req.body;
 
   try {
-    // 1️⃣ Get provider record from user id
+    // Get provider record from user id
     const provider = await findProviderByUserId(req.user.id);
 
     if (!provider) {
@@ -24,9 +24,9 @@ export const createSlot = async (req, res) => {
       });
     }
 
-    const providerId = provider.id; // ✅ THIS is the real provider ID
+    const providerId = provider.id; 
 
-    // 2️⃣ Check overlap
+    // Check overlap
     const overlap = await isOverlappingTimeSlot(
       providerId,
       date,
@@ -40,7 +40,7 @@ export const createSlot = async (req, res) => {
         .json({ message: "Time slot overlaps with existing one" });
     }
 
-    // 3️⃣ Create slot
+    // Create slot
     const slot = await createTimeSlot(providerId, date, startTime, endTime);
 
     res.status(201).json({ message: "Time slot created", slot });
@@ -78,13 +78,12 @@ export const updateSlot = async (req, res) => {
       return res.status(403).json({ message: "Not a provider" });
     }
 
-    // Check for overlapping time slots, excluding the current one
     const overlap = await isOverlappingTimeSlot(
       provider.id,
       date,
       startTime,
       endTime,
-      id // exclude current slot
+      id 
     );
 
     if (overlap) {
@@ -120,13 +119,11 @@ export const deleteSlot = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 1️⃣ Verify provider
     const provider = await findProviderByUserId(req.user.id);
     if (!provider) {
       return res.status(403).json({ message: "Not a provider" });
     }
 
-    // 2️⃣ Delete slot
     const deleted = await deleteTimeSlot(id, provider.id);
 
     if (!deleted) {
@@ -135,7 +132,6 @@ export const deleteSlot = async (req, res) => {
       });
     }
 
-    // 3️⃣ Success response
     res.status(200).json({
       message: "Time slot deleted successfully",
     });

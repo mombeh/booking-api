@@ -54,7 +54,7 @@ export const updateTimeSlot = async ({ id, providerId, date, start_time, end_tim
     `;
     const values = [date, start_time, end_time, id, providerId];
     const result = await query(updateQuery, values);
-    return result.rows[0]; // null if nothing was updated
+    return result.rows[0];
   };
   
   export const deleteTimeSlot = async (slotId, providerId) => {

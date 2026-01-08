@@ -1,4 +1,3 @@
-//model/providermodel
 import { query } from '../config/db.js';
 
 export const findProviderById = async (providerId) => {
