@@ -25,19 +25,15 @@ This API provides a structured, scalable backend solution that automates schedul
 - Structured time-slot management  
 - Automatic double-booking prevention  
 - Real-time booking notifications  
-- Clear API documentation for frontend integration  
-
 ---
 
 ## 🛠 Tech Stack
 
 **Backend:** Node.js, Express  
 **Database:** PostgreSQL  
-**Database Layer:** `pg` (raw SQL queries)  
 **Authentication:** JSON Web Tokens (JWT)  
 **Real-Time Communication:** Socket.IO  
 **Logging:** Winston  
-**Testing:** Jest  
 **Documentation:** Swagger (OpenAPI 3.0)  
 
 ---
@@ -100,24 +96,10 @@ npm run dev
 
 Make sure PostgreSQL is running and your `.env` file is properly configured.
 
----
-
-##  API Documentation
-
-Swagger documentation is available at:
-
-```
-/api/docs
-```
-
-(Add your live demo link here once deployed.)
 
 ---
 
 ##  Challenges Faced
-
-### Time-Slot Collision Detection
-Preventing overlapping bookings required custom SQL queries to validate time ranges before confirming appointments.
 
 ### Authentication & Route Protection
 Structuring JWT middleware to cleanly separate public and protected routes required careful architecture decisions.
